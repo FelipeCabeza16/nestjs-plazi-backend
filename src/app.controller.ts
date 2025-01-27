@@ -9,4 +9,14 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @Get('new-endpoint')
+  newEndpoint(): string {
+    return 'Nuevo método';
+  }
+
+  @Get('/ruta/')
+  helloWorld(): string {
+    return 'Hello /sas/';
+  }
 }
