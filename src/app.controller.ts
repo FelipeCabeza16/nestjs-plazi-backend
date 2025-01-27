@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -18,6 +18,15 @@ export class AppController {
   @Get('/ruta/')
   helloWorld(): string {
     return 'Hello /sas/';
+  }
+
+  @Get('/products')
+  getProducts(
+    @Query('limit') limit: number,
+    @Query('offset') offset: number,
+    @Query('brand') brand: string,
+  ): string {
+    return `Products limit=> ${limit} offset=> ${offset} and brand=> ${brand}`;
   }
 
   @Get('/products/:productID')
