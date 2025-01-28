@@ -47,9 +47,7 @@ export class ProductsService {
     }
     this.products[index] = { ...this.products[index], ...product }; // Merge old and new data
     return this.products[index];
-}
-
-
+  }
   delete(id: number): Product {
     const index = this.products.findIndex((product) => product.id === id);
     const product = this.products[index];
