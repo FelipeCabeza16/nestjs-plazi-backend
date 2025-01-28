@@ -27,11 +27,15 @@ export class ProductsService {
     return product;
   }
 
-  update(id: number, product: Product): Product {
-    const index = this.products.findIndex((product) => product.id === id);
-    this.products[index] = product;
-    return product;
-  }
+  update(id: number, product: Product): Product | null {
+    const index = this.products.findIndex((p) => p.id === id);
+    if (index === -1) {
+      return null; // Return null if the product is not found
+    }
+    this.products[index] = { ...this.products[index], ...product }; // Merge old and new data
+    return this.products[index];
+}
+
 
   delete(id: number): Product {
     const index = this.products.findIndex((product) => product.id === id);
