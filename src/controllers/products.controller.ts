@@ -33,9 +33,8 @@ export class ProductsController {
   @Get(':productID')
   @HttpCode(HttpStatus.ACCEPTED)
   getOne(@Param('productID') productID: string): { product: Product } {
-    return {
-      product: this.productService.findOne(parseInt(productID)),
-    };
+    const product = this.productService.findOne(Number(productID));
+    return { product };
   }
 
   @Post('')
@@ -78,8 +77,11 @@ export class ProductsController {
 
   @Delete(':productID')
   remove(@Param('productID') productID: number): { message: string } {
-    return {
-      message: `Remove action ${productID}`,
-    };
+    const id = Number(productID);
+    if (isNaN(id)) {
+      return { message: 'Invalid product ID' };
+    }
+    this.productService.delete(id);
+    return { message: 'Product deleted' };
   }
 }

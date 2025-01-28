@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from 'src/entities/product.entity';
 
 @Injectable()
@@ -15,11 +15,18 @@ export class ProductsService {
   ];
 
   findAll(): Product[] {
+    if (this.products.length === 0) {
+      throw new NotFoundException('No products found');
+    }
     return this.products;
   }
 
   findOne(id: number): Product {
-    return this.products.find((product) => product.id === id);
+    const product = this.products.find((product) => product.id === id);
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
+    return product;
   }
 
   create(product: Product): Product {
@@ -30,7 +37,7 @@ export class ProductsService {
   update(id: number, product: Product): Product | null {
     const index = this.products.findIndex((p) => p.id === id);
     if (index === -1) {
-      return null; // Return null if the product is not found
+      throw new NotFoundException(`Product #${id} not found`);
     }
     this.products[index] = { ...this.products[index], ...product }; // Merge old and new data
     return this.products[index];
@@ -40,6 +47,9 @@ export class ProductsService {
   delete(id: number): Product {
     const index = this.products.findIndex((product) => product.id === id);
     const product = this.products[index];
+    if (!product) {
+      throw new NotFoundException(`Product #${id} not found`);
+    }
     this.products.splice(index, 1);
     return product;
   }
