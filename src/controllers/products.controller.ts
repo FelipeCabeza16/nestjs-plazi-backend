@@ -8,7 +8,7 @@ import {
   Put,
   Delete,
   HttpStatus,
-  HttpCode
+  HttpCode,
 } from '@nestjs/common';
 
 @Controller('products')
