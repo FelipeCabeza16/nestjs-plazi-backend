@@ -11,6 +11,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
+import { CreateProductDto, UpdateProductDto } from 'src/dtos/product.dtos';
 import { Product } from 'src/entities/product.entity';
 import { ProductsService } from 'src/services/products.service';
 
@@ -41,7 +42,7 @@ export class ProductsController {
   }
 
   @Post('')
-  create(@Body() payload: any): { message: string; payload: any } {
+  create(@Body() payload: CreateProductDto): { message: string; payload: any } {
     const newProduct = new Product();
     newProduct.id = Math.floor(Math.random() * 10000);
     newProduct.name = payload.name;
@@ -59,7 +60,7 @@ export class ProductsController {
   @Put(':productID')
   update(
     @Param('productID') productID: string, // Change from number to string
-    @Body() payload: any,
+    @Body() payload: UpdateProductDto,
   ): { message: string; payload?: any } {
     const id = Number(productID); // Convert to number
     if (isNaN(id)) {
